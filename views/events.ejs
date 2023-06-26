@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Información</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .server-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+        }
+
+        .server-info h1 {
+            margin-top: 0;
+            color: #007bff;
+            font-weight: 700;
+        }
+
+        .server-info p {
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #333;
+            font-weight: 400;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="server-info">
+                    <div>
+                        <h1>Información del servidor</h1>
+                        <div class="d-flex gap-2">
+                            <strong>URL: </strong>
+                            <p id="server-url">
+                                <%= serverStartUp.url %>
+                            </p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <strong>Fecha de Inicio:</strong>
+                            <p id="server-date">
+                                <%= serverStartUp.initDate %>
+                            </p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <strong>Hora de Inicio:</strong>
+                            <p id="server-hour">
+                                <%= serverStartUp.initHour %>
+                            </p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <strong>Fecha Actual:</strong>
+                            <p id="server-current-date">
+                                <%= serverStartUp.currentDate %>
+                            </p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <strong>Hora Actual:</strong>
+                            <p id="server-current-hour">
+                                <%= serverStartUp.currentHour %>
+                            </p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <strong>Tiempo transcurrido:</strong>
+                            <p id="server-elapsed-time">
+                                <%= serverStartUp.elapsedTime %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="url-tab" data-bs-toggle="tab" data-bs-target="#url-panel"
+                            type="button" role="tab" aria-controls="url-panel" aria-selected="true">Eventos</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="error-tab" data-bs-toggle="tab" data-bs-target="#error-panel"
+                            type="button" role="tab" aria-controls="error-panel" aria-selected="false">Errores</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="url-panel" role="tabpanel" aria-labelledby="url-tab">
+                        <div class="table-responsive">
+                            <table id="event-table" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>URL</th>
+                                        <th>Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% events.forEach(function(event) { %>
+                                        <tr>
+                                            <td>
+                                                <%= event.url %>
+                                            </td>
+                                            <td>
+                                                <%= event.quantity %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="error-panel" role="tabpanel" aria-labelledby="error-tab">
+                        <div class="table-responsive">
+                            <table id="error-table" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>URL</th>
+                                        <th>Metodo</th>
+                                        <th>Error</th>
+                                        <th>Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% errors.forEach(function(error) { %>
+                                        <tr>
+                                            <td>
+                                                <%= error.url %>
+                                            </td>
+                                            <td>
+                                                <%= error.method %>
+                                            </td>
+                                            <td>
+                                                <%= error.error %>
+                                            </td>
+                                            <td>
+                                                <%= error.date %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script>
+        // Renderizar la página inicialmente
+        const initialEvents = JSON.parse('<%- JSON.stringify(events) %>');
+        const initialErrors = JSON.parse('<%- JSON.stringify(errors) %>');
+        const initialServerStartUp = JSON.parse('<%- JSON.stringify(serverStartUp) %>');
+
+        // Referencias a los elementos HTML correspondientes
+        const serverInfoUrl = document.querySelector('#server-url');
+        const serverInfoDate = document.querySelector('#server-date');
+        const serverInfoHour = document.querySelector('#server-hour');
+        const serverInfoCurrentDate = document.querySelector('#server-current-date');
+        const serverInfoCurrentHour = document.querySelector('#server-current-hour');
+        const serverInfoElapsedTime = document.querySelector('#server-elapsed-time');
+        const eventTableBody = document.querySelector('#event-table tbody');
+        const errorList = document.querySelector('#error-table tbody');
+
+        // Función para renderizar la tabla de eventos
+        function renderEventTable(events) {
+            eventTableBody.innerHTML = '';
+
+            events.forEach(event => {
+                const row = document.createElement('tr');
+                const urlCell = document.createElement('td');
+                const quantityCell = document.createElement('td');
+
+                urlCell.textContent = event.url;
+                quantityCell.textContent = event.quantity;
+
+                row.appendChild(urlCell);
+                row.appendChild(quantityCell);
+                eventTableBody.appendChild(row);
+            });
+        }
+
+        // Función para renderizar la lista de errores
+        function renderErrorList(errors) {
+            errorList.innerHTML = '';
+
+            errors.forEach(error => {
+                const row = document.createElement('tr');
+                const errorUrlCell = document.createElement('td');
+                const methodCell = document.createElement('td');
+                const errorCell = document.createElement('td');
+                const dateCell = document.createElement('td');
+                console.log(error)
+                errorUrlCell.textContent = error.url;
+                methodCell.textContent = error.method;
+                errorCell.textContent = error.error;
+                dateCell.textContent = error.date;
+
+                row.appendChild(errorUrlCell);
+                row.appendChild(methodCell);
+                row.appendChild(errorCell);
+                row.appendChild(dateCell);
+                errorList.appendChild(row);
+            });
+        }
+
+        // Función para actualizar la información del servidor
+        function updateServerInfo(serverData) {
+            serverInfoUrl.textContent = serverData.url;
+            serverInfoDate.textContent = serverData.initDate;
+            serverInfoHour.textContent = serverData.initHour;
+            serverInfoCurrentDate.textContent = serverData.currentDate;
+            serverInfoCurrentHour.textContent = serverData.currentHour;
+            serverInfoElapsedTime.textContent = serverData.elapsedTime;
+        }
+
+        // Renderizar la tabla de eventos inicialmente
+        renderEventTable(initialEvents);
+
+        // Renderizar la lista de errores inicialmente
+        renderErrorList(initialErrors);
+
+        // Actualizar la información del servidor inicialmente
+        updateServerInfo(initialServerStartUp);
+
+        // Establecer la conexión SSE
+        const eventSource = new EventSource('/events');
+
+        eventSource.addEventListener('eventUpdate', (event) => {
+            const eventData = JSON.parse(event.data);
+            // Actualizar la tabla de eventos con los nuevos datos
+            renderEventTable(eventData);
+        });
+
+        eventSource.addEventListener('errorUpdate', (event) => {
+            const errorData = JSON.parse(event.data);
+            // Actualizar la lista de errores con los nuevos datos
+            renderErrorList(errorData);
+        });
+        eventSource.addEventListener('serverUpdate', (event) => {
+            const serverData = JSON.parse(event.data);
+            // Actualizar la información del servidor en la página
+            updateServerInfo(serverData);
+        });
+    </script>
+
+</body>
+
+</html>
